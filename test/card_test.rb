@@ -22,10 +22,18 @@ describe Card do
   end
 
   describe "Testing to_s" do
+    before do
+      @allowed_suits = [:hearts, :spades, :clubs, :diamonds]
+    end
 
     it "to_s returns a readable String value logically for values 2-10" do
-      # Test to ensure that to_s works for cards values 2-10
-      # for example:  "2 of diamonds"
+      @nums = (2..10).to_a
+      100.times do
+        rand_num = @nums.sample
+        rand_suit = @allowed_suits.sample
+        rand_card = Card.new(rand_num, rand_suit)
+        expect(rand_card.to_s).must_equal "#{rand_num} of #{rand_suit.to_s}"
+      end
     end
 
     it "to_s returns a readable String value for Ace, Jack, Queen, King" do
@@ -40,17 +48,46 @@ describe Card do
       #  11: Jack
       #  12: Queen
       #  13: King
+      @nums = [1, 11, 12, 13]
+      100.times do
+        rand_suit = @allowed_suits.sample
+        rand_num = @nums.sample
+        rand_card = Card.new(rand_num, rand_suit)
+        case rand_num
+        when 1
+          expect(rand_card.to_s).must_equal "Ace of #{rand_suit}"
+        when 11
+          expect(rand_card.to_s).must_equal "Jack of #{rand_suit}"
+        when 12
+          expect(rand_card.to_s).must_equal "Queen of #{rand_suit}"
+        when 13
+          expect(rand_card.to_s).must_equal "King of #{rand_suit}"
+        end
+      end
     end
   end
 
   describe "Reader methods" do
-
+    before do
+      @nums = (1..13).to_a
+      @allowed_suits = [:hearts, :spades, :clubs, :diamonds]
+    end
     it "Can retrieve the value of the card using a `.value`." do
-      # ensure that `.value works as expected`
+      100.times do
+        rand_num = @nums.sample
+        rand_suit = @allowed_suits.sample
+        rand_card = Card.new(rand_num, rand_suit)
+        expect(rand_card.value).must_equal rand_num
+      end
     end
 
     it "Can retrieve the value of the card using a `.suit`." do
-      # ensure that `.suit works as expected returning the symbol of the suit`
+      100.times do
+        rand_num = @nums.sample
+        rand_suit = @allowed_suits.sample
+        rand_card = Card.new(rand_num, rand_suit)
+        expect(rand_card.suit).must_equal rand_suit
+      end
 
     end
   end
